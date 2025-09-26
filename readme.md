@@ -1,20 +1,19 @@
-🚀 Aplicación de Gestión de Proyectos con Flask
+# 🚀 Aplicación de Gestión de Proyectos con Flask
 
-Una aplicación web moderna desarrollada con Flask y Python para gestionar proyectos y docentes de manera eficiente. Permite realizar operaciones CRUD completas a través de una interfaz web intuitiva y responsiva.
+Una aplicación web moderna desarrollada con **Flask** y **Python** para gestionar proyectos y docentes de manera eficiente. Permite realizar operaciones CRUD completas a través de una interfaz web intuitiva y responsiva.
 
-🏗️ Arquitectura del Proyecto
+## 🏗️ Arquitectura del Proyecto
 
 El proyecto implementa una arquitectura cliente-servidor robusta:
 
-🔧 Backend (Servidor): Construido con Flask, maneja toda la lógica de negocio y enrutamiento
+- **🔧 Backend (Servidor)**: Construido con Flask, maneja toda la lógica de negocio y enrutamiento
+- **🗄️ Base de Datos**: PostgreSQL para almacenamiento persistente y confiable
+- **🎨 Frontend (Cliente)**: Plantillas Jinja2 con Bootstrap 5 para diseño responsivo
+- **⚙️ Configuración**: Variables de entorno con archivo `.env` para máxima seguridad
 
-🗄️ Base de Datos: PostgreSQL para almacenamiento persistente y confiable
+## 📁 Estructura de Archivos
 
-🎨 Frontend (Cliente): Plantillas Jinja2 con Bootstrap 5 para diseño responsivo
-
-⚙️ Configuración: Variables de entorno con archivo .env para máxima seguridad
-
-📁 Estructura de Archivos
+```
 /tu_proyecto/
 │
 ├── 📄 app.py              # Lógica principal de Flask
@@ -26,21 +25,25 @@ El proyecto implementa una arquitectura cliente-servidor robusta:
     ├── 🏡 index.html      # Página de inicio
     ├── 👨‍🏫 docentes.html   # Gestión de docentes
     └── 📊 proyectos.html  # Gestión de proyectos
+```
 
-📋 Requisitos Previos
+## 📋 Requisitos Previos
 
 Antes de comenzar, asegúrate de tener:
 
-🐍 Python 3.7+ y pip instalados
+- 🐍 **Python 3.7+** y pip instalados
+- 🐘 **PostgreSQL** servidor en ejecución
 
-🐘 PostgreSQL servidor en ejecución
+## 🚀 Guía de Instalación y Ejecución
 
-🚀 Guía de Instalación y Ejecución
-1. 📥 Clonar el Proyecto
+### 1. 📥 Clonar el Proyecto
+```bash
 git clone <tu-repositorio>
 cd tu_proyecto
+```
 
-2. 🔧 Crear Entorno Virtual
+### 2. 🔧 Crear Entorno Virtual
+```bash
 # Crear el entorno virtual
 python3 -m venv venv
 
@@ -49,18 +52,24 @@ python3 -m venv venv
 source venv/bin/activate
 # 🪟 Windows:
 .\venv\Scripts\activate
+```
 
-3. 📦 Instalar Dependencias
+### 3. 📦 Instalar Dependencias
+```bash
 pip install -r requirements.txt
+```
 
+> 💡 **Nota**: Asegúrate de que `requirements.txt` contenga: `Flask`, `psycopg2-binary`, `python-dotenv`
 
-💡 Nota: Asegúrate de que requirements.txt contenga: Flask, psycopg2-binary, python-dotenv
+### 4. 🗄️ Configurar la Base de Datos
 
-4. 🗄️ Configurar la Base de Datos
-a. Crear la Base de Datos:
+#### a. Crear la Base de Datos:
+```sql
 CREATE DATABASE proyectos_informaticos;
+```
 
-b. Crear las Tablas:
+#### b. Crear las Tablas:
+```sql
 -- 👨‍🏫 Tabla para los docentes
 CREATE TABLE docente (
     codigo SERIAL PRIMARY KEY,
@@ -87,41 +96,44 @@ CREATE TABLE proyecto (
         REFERENCES docente(codigo)
         ON DELETE SET NULL
 );
+```
 
-5. 🔐 Configurar Variables de Entorno
+### 5. 🔐 Configurar Variables de Entorno
 
-Crea un archivo .env en la raíz del proyecto:
+Crea un archivo `.env` en la raíz del proyecto:
 
+```ini
 # 🔑 Credenciales para PostgreSQL
 DB_HOST=localhost
 DB_NAME=proyectos_informaticos
 DB_USER=tu_usuario_postgres
 DB_PASSWORD=tu_contraseña_segura
 DB_PORT=5432
+```
 
-6. ▶️ Ejecutar la Aplicación
+### 6. ▶️ Ejecutar la Aplicación
+```bash
 python app.py
+```
 
-7. 🌐 Acceder a la Aplicación
+### 7. 🌐 Acceder a la Aplicación
 
-Abre tu navegador y visita: http://127.0.0.1:5000
+Abre tu navegador y visita: **http://127.0.0.1:5000**
 
-🎯 Funcionalidades
+---
 
-✅ CRUD Completo para docentes y proyectos
+## 🎯 Funcionalidades
 
-🎨 Interfaz Responsiva con Bootstrap 5
+- ✅ **CRUD Completo** para docentes y proyectos
+- 🎨 **Interfaz Responsiva** con Bootstrap 5
+- 🔒 **Configuración Segura** con variables de entorno
+- 🗄️ **Base de Datos Relacional** con PostgreSQL
+- 🚀 **Fácil Despliegue** y configuración
 
-🔒 Configuración Segura con variables de entorno
-
-🗄️ Base de Datos Relacional con PostgreSQL
-
-🚀 Fácil Despliegue y configuración
-
-🤝 Contribuciones
+## 🤝 Contribuciones
 
 ¡Las contribuciones son bienvenidas! Por favor, abre un issue o envía un pull request.
 
-📄 Licencia
+## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
