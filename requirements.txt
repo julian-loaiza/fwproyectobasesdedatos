@@ -1,0 +1,24 @@
+# ============================================
+# Requisitos del proyecto de Gestión de Proyectos con Flask
+# ============================================
+# Es importante tener al menos Python 3.7 instalado en el sistema.
+# La siguiente línea NO instala Python, solo documenta la versión requerida.
+# python>=3.7
+
+# -------------------------------
+# Framework principal para la aplicación web
+# -------------------------------
+Flask>=2.0
+
+# -------------------------------
+# Conector de PostgreSQL para Python
+# Permite que Flask se comunique con la base de datos
+# -------------------------------
+psycopg2-binary>=2.9
+
+# -------------------------------
+# Manejo de variables de entorno (.env)
+# Para proteger credenciales y configuraciones
+# -------------------------------
+python-dotenv>=0.20
+
