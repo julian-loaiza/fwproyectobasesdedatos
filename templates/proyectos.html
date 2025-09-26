@@ -1,0 +1,172 @@
+{% extends 'layout.html' %}
+
+{% block title %}Gestionar Proyectos{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Lista de Proyectos</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProyectoModal">
+        <i class="bi bi-plus-circle"></i> Añadir Proyecto
+    </button>
+</div>
+
+<!-- Tabla de Proyectos -->
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Aliado</th>
+                <th>Presupuesto</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Docente Jefe</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proyecto in proyectos %}
+            <tr>
+                <td>{{ proyecto.codigo }}</td>
+                <td>{{ proyecto.nombre }}</td>
+                <td>{{ proyecto.aliado }}</td>
+                <td>{{ "€{:,.2f}".format(proyecto.presupuesto) }}</td>
+                <td>{{ proyecto.fechainicio.strftime('%Y-%m-%d') }}</td>
+                <td>{{ proyecto.fechafin.strftime('%Y-%m-%d') }}</td>
+                <td>{{ proyecto.nombre_jefe or 'No asignado' }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProyectoModal{{ proyecto.codigo }}">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <a href="{{ url_for('delete_proyecto', codigo=proyecto.codigo) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este proyecto?');">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <!-- Modal Editar Proyecto -->
+            <div class="modal fade" id="editProyectoModal{{ proyecto.codigo }}" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Proyecto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ url_for('update_proyecto', codigo=proyecto.codigo) }}" method="POST">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" name="nombre" class="form-control" value="{{ proyecto.nombre }}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Aliado</label>
+                                        <input type="text" name="aliado" class="form-control" value="{{ proyecto.aliado }}" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea name="descripcion" class="form-control" rows="3">{{ proyecto.descripcion }}</textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Presupuesto</label>
+                                        <input type="number" step="0.01" name="presupuesto" class="form-control" value="{{ proyecto.presupuesto }}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Horas Estimadas</label>
+                                        <input type="number" name="horas_estimadas" class="form-control" value="{{ proyecto.horasestimadas }}" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Fecha Inicio</label>
+                                        <input type="date" name="fecha_inicio" class="form-control" value="{{ proyecto.fechainicio.strftime('%Y-%m-%d') }}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Fecha Fin</label>
+                                        <input type="date" name="fecha_fin" class="form-control" value="{{ proyecto.fechafin.strftime('%Y-%m-%d') }}" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Docente Jefe</label>
+                                    <select name="docente_jefe" class="form-select" required>
+                                        {% for docente in docentes %}
+                                        <option value="{{ docente.documento }}" {% if docente.documento == proyecto.docentejefe %}selected{% endif %}>
+                                            {{ docente.nombre }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Añadir Proyecto -->
+<div class="modal fade" id="addProyectoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Añadir Nuevo Proyecto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('add_proyecto') }}" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Aliado</label>
+                            <input type="text" name="aliado" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="descripcion" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Presupuesto</label>
+                            <input type="number" step="0.01" name="presupuesto" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Horas Estimadas</label>
+                            <input type="number" name="horas_estimadas" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha Inicio</label>
+                            <input type="date" name="fecha_inicio" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha Fin</label>
+                            <input type="date" name="fecha_fin" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Docente Jefe</label>
+                        <select name="docente_jefe" class="form-select" required>
+                            <option value="" disabled selected>Selecciona un docente</option>
+                            {% for docente in docentes %}
+                            <option value="{{ docente.codigo }}">{{ docente.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Añadir Proyecto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
